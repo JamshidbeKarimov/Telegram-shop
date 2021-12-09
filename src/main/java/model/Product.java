@@ -9,7 +9,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Product {
+public class Product extends BaseModel{
     private double price;
     private int amount;
     private UUID sellerId;
