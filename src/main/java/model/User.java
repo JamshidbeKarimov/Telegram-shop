@@ -1,6 +1,7 @@
 package model;
 
 
+import enums.RoleUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ public class User extends BaseModel{
     private String password;
     private String phoneNumber;
     private int smsCode;
-    private Enum role;
+    private RoleUser role;
     private double balance;
 
 }
