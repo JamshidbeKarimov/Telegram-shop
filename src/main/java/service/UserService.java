@@ -4,18 +4,24 @@ import enums.RoleUser;
 import model.User;
 import repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class UserService extends UserRepository {
     @Override
     public User get(UUID id) {
+        for (User user : userList) {
+            if (user.getId().equals(id)) {
+                return user;
+            }
+        }
         return null;
     }
 
     @Override
     public List<User> getList() {
-        return null;
+        return userList;
     }
 
     @Override
@@ -25,12 +31,34 @@ public class UserService extends UserRepository {
 
     @Override
     public String add(User user) {
-        return null;
+        if (isPhoneNumberExist(user.getPhoneNumber())) {
+            return ERROR_USER_ALREADY_EXIST;
+        }
+        userList.add(user);
+        return SUCCESS;
     }
 
     @Override
-    public String editById(UUID id, User user) {
-        return null;
+    public String editById(UUID id, User editedUser) {
+        for (User user : userList) {
+            if (user.getId().equals(id)) {
+                user.setUsername(editedUser.getUsername());
+                user.setBalance(editedUser.getBalance());
+                user.setPassword(editedUser.getPassword());
+                user.setRole(editedUser.getRole());
+                user.setPhoneNumber(editedUser.getPhoneNumber());
+                user.setSmsCode(editedUser.getSmsCode());
+                user.setActive(editedUser.isActive());
+                user.setName(editedUser.getName());
+                user.setCreatedBy(editedUser.getCreatedBy());
+                user.setUpdatedBy(editedUser.getUpdatedBy());
+                user.setCreatedDate(editedUser.getCreatedDate());
+                user.setUpdatedDate(editedUser.getUpdatedDate());
+
+                return SUCCESS;
+            }
+        }
+        return ERROR_USER_NOT_FOUND;
     }
 
     @Override
@@ -40,6 +68,40 @@ public class UserService extends UserRepository {
 
     @Override
     protected List<User> getUsers(RoleUser roleUser) {
-        return null;
+        List<User> users = new ArrayList<>();
+        for (User user : userList) {
+            if (user.getRole().equals(roleUser)) {
+                users.add(user);
+            }
+        }
+        return users;
+    }
+
+    @Override
+    public String toggleActivation(String phoneNumber) {
+        for (User user : userList) {
+            if (user.getPhoneNumber().equals(phoneNumber)) {
+                user.setActive(!user.isActive());
+                return SUCCESS;
+            }
+        }
+        return ERROR_USER_NOT_FOUND;
+    }
+
+    public boolean isUsernameExist(String username) {
+        for (User user : userList) {
+         if (user.getUsername().equals(username))
+             return true;
+        }
+        return false;
+    }
+
+    public boolean isPhoneNumberExist(String phoneNumber) {
+        for (User user : userList) {
+            if (user.getPhoneNumber().equals(phoneNumber)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
