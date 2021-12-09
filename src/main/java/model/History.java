@@ -6,12 +6,15 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class MyCard extends BaseModel{
+@NoArgsConstructor
+
+@Data
+
+public class History extends BaseModel{
+
     private UUID userId;
+    private UUID sellerId;
     private UUID productId;
-    private boolean isSold;
-    private double price;
+    private int amount;
 }
