@@ -38,7 +38,7 @@ public class MyCartService extends MyCartRepository {
     }
 
     @Override
-    protected String buy() {
+    protected String buy(UUID userId) {
         return null;
     }
 }
