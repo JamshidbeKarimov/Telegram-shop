@@ -88,6 +88,16 @@ public class UserService extends UserRepository {
         return ERROR_USER_NOT_FOUND;
     }
 
+    @Override
+    public User login(String username, String password) {
+        for (User user : userList) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
     public boolean isUsernameExist(String username) {
         for (User user : userList) {
          if (user.getUsername().equals(username))

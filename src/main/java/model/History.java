@@ -15,6 +15,8 @@ public class History extends BaseModel{
 
     private UUID userId;
     private UUID sellerId;
-    private UUID productId;
+    private String userName;
+    private String sellerName;
+    private String productName;
     private int amount;
 }
