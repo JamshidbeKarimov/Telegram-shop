@@ -27,4 +27,6 @@ public interface BaseResponse {
     String WRONG_INPUT = "\n========== WRONG INPUT ==========\n";
     String SELLER_REQUEST = "\n========== SELLER REQUESTS ==========\n";
 
+    String ERROR_NOTIFICATION_NOT_FOUND = "\n========== NOTIFICATION NOT FOUND ==========\n";
+
 }
