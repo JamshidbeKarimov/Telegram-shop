@@ -4,6 +4,7 @@ import model.MyCart;
 import model.Product;
 import repository.ProductRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.UUID;
 
 public class ProductService extends ProductRepository {
     @Override
-    public Product get(UUID id) {
+    public Product get(UUID productId) {
         for (Product product : productList) {
-            if (product.getId() == id) {
+            if (product.getId() == productId) {
                 return product;
             }
         }
@@ -54,10 +55,10 @@ public class ProductService extends ProductRepository {
     }
 
     @Override
-    public String toggleActivation(UUID id) {
+    public String toggleActivation(UUID productId) {
         int index = 0;
         for (Product product : productList) {
-            if (product.getId() == id) {
+            if (product.getId().equals(productId)) {
                 product.setActive(!product.isActive());
                 productList.set(index, product);
                 return SUCCESS;
@@ -67,25 +68,7 @@ public class ProductService extends ProductRepository {
         return ERROR_ID_NOT_FOUND;
     }
 
-    @Override
-    protected String addToCart(Product product, UUID userId, int amount) {
-        if (product.getAmount() < amount) return ERROR_PRODUCT_AMOUNT_NOT_ENOUGH;
-        int index = 0;
-        for (MyCart myCard : myCartList) {
-            if (myCard.getUserId() == userId && myCard.getProductId() == product.getId() && myCard.isActive()) {
-                myCard.setAmount(myCard.getAmount() + amount);
-                myCard.setCreatedDate(new Date());
-                myCartList.set(index, myCard);
-                return SUCCESS;
-            }
-            index++;
-        }
 
-        MyCart myCart = new MyCart(userId, product.getId(), false, product.getPrice(), amount);
-        myCart.setCreatedDate(new Date());
-        myCartList.add(myCart);
-        return SUCCESS;
-    }
 
     @Override
     protected List<Product> getListByCategoryId(UUID categoryId) {

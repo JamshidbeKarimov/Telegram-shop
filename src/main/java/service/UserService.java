@@ -10,9 +10,9 @@ import java.util.UUID;
 
 public class UserService extends UserRepository {
     @Override
-    public User get(UUID id) {
+    public User get(UUID userId) {
         for (User user : userList) {
-            if (user.getId().equals(id)) {
+            if (user.getId().equals(userId)) {
                 return user;
             }
         }
@@ -39,9 +39,9 @@ public class UserService extends UserRepository {
     }
 
     @Override
-    public String editById(UUID id, User editedUser) {
+    public String editById(UUID userId, User editedUser) {
         for (User user : userList) {
-            if (user.getId().equals(id)) {
+            if (user.getId().equals(userId)) {
                 user.setUsername(editedUser.getUsername());
                 user.setBalance(editedUser.getBalance());
                 user.setPassword(editedUser.getPassword());

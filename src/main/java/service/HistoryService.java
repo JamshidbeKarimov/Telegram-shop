@@ -4,6 +4,7 @@ import model.History;
 import model.User;
 import repository.HistoryRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,8 +20,9 @@ public class HistoryService extends HistoryRepository {
         return historyList;
     }
 
+
     @Override
-    public List<History> getList(UUID id) {
+    public List<History> getList(UUID sellerOrUserId) {
         return null;
     }
 
