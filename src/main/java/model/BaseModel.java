@@ -1,11 +1,9 @@
 package model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
@@ -26,4 +24,6 @@ public abstract class BaseModel {
         this.id = UUID.randomUUID();
         this.createdDate = LocalDateTime.now();
     }
+
+
 }

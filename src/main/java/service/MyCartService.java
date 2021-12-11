@@ -12,6 +12,7 @@ import java.util.UUID;
 public class MyCartService extends MyCartRepository {
     @Override
     public MyCart get(UUID cartId) {
+
         return null;
     }
 
@@ -69,7 +70,12 @@ public class MyCartService extends MyCartRepository {
     }
 
     @Override
+
+    protected String buy(List<MyCart> myCartList) {
+        return null;
+    }
     protected String buy(List<MyCart> cartsToBuy) {
+
         return null;
     }
 }
