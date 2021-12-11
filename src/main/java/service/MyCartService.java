@@ -9,6 +9,9 @@ import java.util.UUID;
 public class MyCartService extends MyCartRepository {
     @Override
     public MyCart get(UUID id) {
+        for (MyCart mycart:myCartList) {
+
+        }
         return null;
     }
 
@@ -38,7 +41,7 @@ public class MyCartService extends MyCartRepository {
     }
 
     @Override
-    protected String buy(UUID userId) {
+    protected String buy(List<MyCart> myCartList) {
         return null;
     }
 }

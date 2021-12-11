@@ -1,6 +1,5 @@
 package repository;
 
-import model.Category;
 import model.Product;
 
 import java.util.List;
@@ -13,4 +12,6 @@ public abstract class ProductRepository implements BaseRepository<Product, Strin
     protected abstract List<Product> getListByCategoryId(UUID categoryId);
 
     protected abstract List<Product> getListBySellerId(UUID sellerId);
+
+
 }

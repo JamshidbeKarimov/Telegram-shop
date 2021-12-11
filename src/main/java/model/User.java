@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 @Data
-public class User extends BaseModel{
+public class User extends BaseModel {
 
     private String username;
     private String password;
@@ -19,4 +19,15 @@ public class User extends BaseModel{
     private RoleUser role;
     private double balance;
 
+    @Override
+    public String toString() {
+        String str = "| NAME='" + name +
+                "\t|\tCREATED DATE: " + createdDate;
+        if (updatedDate != null) str += "\t|\tUPDATED DATE: " + updatedDate;
+        str += "\t|\tIS ACTIVE: " + isActive +
+                "\t|\tUSERNAME: " + username +
+                "\t|\tPHONE NUMBER: " + phoneNumber +
+                "\t|\tBALANCE: " + balance + " |";
+        return str;
+    }
 }

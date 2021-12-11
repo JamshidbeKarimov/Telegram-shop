@@ -8,7 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Notification extends BaseModel {
+    String message;
 
-    private boolean isRejected;
-
+    @Override
+    public String toString() {
+        return "| CREATED DATE: " + createdDate +
+                "\t\tMESSAGE: " + message + " |";
+    }
 }

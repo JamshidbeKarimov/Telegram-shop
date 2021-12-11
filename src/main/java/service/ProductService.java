@@ -81,7 +81,7 @@ public class ProductService extends ProductRepository {
             index++;
         }
 
-        MyCart myCart = new MyCart(userId, product.getId(), false, product.getPrice(), amount);
+        MyCart myCart = new MyCart(userId, product.getId(), false, product.getPrice(), amount, product.getName());
         myCart.setCreatedDate(new Date());
         myCartList.add(myCart);
         return SUCCESS;
