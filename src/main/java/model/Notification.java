@@ -9,6 +9,4 @@ import lombok.NoArgsConstructor;
 @Data
 public class Notification extends BaseModel {
 
-    private boolean isRejected;
-
 }

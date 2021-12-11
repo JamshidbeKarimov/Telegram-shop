@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public abstract class ProductRepository implements BaseRepository<Product, String, List<Product>> {
 
-    protected abstract String addToCart(Product product, UUID userId, int amount);
+
 
     protected abstract List<Product> getListByCategoryId(UUID categoryId);
 
