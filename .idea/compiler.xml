@@ -10,6 +10,9 @@
         <module name="e_commerse_team5" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="e_commerse_team5" target="16" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

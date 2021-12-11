@@ -68,4 +68,11 @@ public class NotificationService extends NotificationRepository {
         //
         return action == 1; // accepted
     }
+
+    public boolean acceptReject(int action){
+        if (action == 1)
+            return true; // accepted
+        else
+            return false; //
+    }
 }
