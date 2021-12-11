@@ -51,8 +51,17 @@ public class NotificationService extends NotificationRepository {
         return ERROR_NOTIFICATION_NOT_FOUND;
     }
 
+
+    // isActive --> true
     @Override
     public String toggleActivation(UUID id) {
         return null;
+    }
+
+    public boolean acceptReject(int action){
+        if (action == 1)
+            return true; // accepted
+        else
+            return false; //
     }
 }

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class Notification extends BaseModel {
     String message;
 
+
     @Override
     public String toString() {
         return "| CREATED DATE: " + createdDate +

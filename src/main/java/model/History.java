@@ -19,4 +19,6 @@ public class History extends BaseModel{
     private String sellerName;
     private String productName;
     private int amount;
+
+
 }

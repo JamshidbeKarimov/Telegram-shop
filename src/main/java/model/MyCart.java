@@ -9,7 +9,8 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyCart extends BaseModel {
+
+public class MyCart extends BaseModel{
     private UUID userId;
     private UUID productId;
     private boolean isSold;

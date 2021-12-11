@@ -10,9 +10,9 @@ import java.util.UUID;
 public class CategoryService extends CategoryRepository {
 
     @Override
-    public Category get(UUID id) {
+    public Category get(UUID categoryId) {
         for (Category category : categoryList) {
-            if (category.getId().equals(id))
+            if (category.getId().equals(categoryId))
                 return category;
         }
         return null;
@@ -39,9 +39,9 @@ public class CategoryService extends CategoryRepository {
     }
 
     @Override
-    public String editById(UUID id, Category category) {
+    public String editById(UUID categoryId, Category category) {
         for (Category existCategory : categoryList) {
-            if (existCategory.getId().equals(id)) {
+            if (existCategory.getId().equals(categoryId)) {
                 existCategory.setName(category.getName());
                 existCategory.setActive(category.isActive());
                 existCategory.setCreatedBy(category.getCreatedBy());
@@ -56,7 +56,8 @@ public class CategoryService extends CategoryRepository {
     }
 
     @Override
-    public String toggleActivation(UUID id) {
+    public String toggleActivation(UUID categoryId) {
+
         return null;
     }
 
