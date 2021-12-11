@@ -68,14 +68,6 @@ public class ProductService extends ProductRepository {
         return ERROR_ID_NOT_FOUND;
     }
 
-
-
-        MyCart myCart = new MyCart(userId, product.getId(), false, product.getPrice(), amount, product.getName());
-        myCart.setCreatedDate(new Date());
-        myCartList.add(myCart);
-        return SUCCESS;
-    }
-
     @Override
     protected List<Product> getListByCategoryId(UUID categoryId) {
         List<Product> products = new ArrayList<>();

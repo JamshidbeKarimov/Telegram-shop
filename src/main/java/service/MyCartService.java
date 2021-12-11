@@ -53,7 +53,7 @@ public class MyCartService extends MyCartRepository {
             index++;
         }
 
-        MyCart myCart = new MyCart(userId, product.getId(), false, product.getPrice(), amount);
+        MyCart myCart = new MyCart(userId, product.getId(), false, product.getPrice(), amount, product.getName());
         myCart.setCreatedDate(LocalDateTime.now());
         myCartList.add(myCart);
         return SUCCESS;
@@ -72,10 +72,6 @@ public class MyCartService extends MyCartRepository {
     @Override
 
     protected String buy(List<MyCart> myCartList) {
-        return null;
-    }
-    protected String buy(List<MyCart> cartsToBuy) {
-
         return null;
     }
 }
