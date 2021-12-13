@@ -21,7 +21,7 @@ public class NotificationService extends NotificationRepository {
     public List<Notification> getList() {
         List<Notification> notifications = new ArrayList<>();
         for (Notification n: notificationList) {
-            if (n.isActive() == false)
+            if (!n.isActive())
                 notifications.add(n);
         }
         return notifications;
@@ -55,13 +55,17 @@ public class NotificationService extends NotificationRepository {
     // isActive --> true
     @Override
     public String toggleActivation(UUID id) {
-        return null;
+        for (Notification n: notificationList) {
+            if (n.getId().equals(id)){
+                n.setActive(!n.isActive());
+                return SUCCESS;
+            }
+        }
+        return ERROR_NOTIFICATION_NOT_FOUND;
     }
 
     public boolean acceptReject(int action){
-        if (action == 1)
-            return true; // accepted
-        else
-            return false; //
+        //
+        return action == 1; // accepted
     }
 }

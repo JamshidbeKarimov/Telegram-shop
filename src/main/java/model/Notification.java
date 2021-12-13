@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class Notification extends BaseModel {
     String message;
+    // isActive  ->  have been read;
+    // isNotActive -> have not been read
 
 
     @Override

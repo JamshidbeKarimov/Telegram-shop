@@ -35,26 +35,6 @@ public class MyCartService extends MyCartRepository {
 
     @Override
     public String add(MyCart myCart) {
-
-        return null;
-    }
-
-    @Override
-    protected String addToCart(Product product, UUID userId, int amount) {
-        if (product.getAmount() < amount) return ERROR_PRODUCT_AMOUNT_NOT_ENOUGH;
-        int index = 0;
-        for (MyCart myCard : myCartList) {
-            if (myCard.getUserId() == userId && myCard.getProductId() == product.getId() && myCard.isActive()) {
-                myCard.setAmount(myCard.getAmount() + amount);
-                myCard.setCreatedDate(LocalDateTime.now());
-                myCartList.set(index, myCard);
-                return SUCCESS;
-            }
-            index++;
-        }
-
-        MyCart myCart = new MyCart(userId, product.getId(), false, product.getPrice(), amount, product.getName());
-        myCart.setCreatedDate(LocalDateTime.now());
         myCartList.add(myCart);
         return SUCCESS;
     }

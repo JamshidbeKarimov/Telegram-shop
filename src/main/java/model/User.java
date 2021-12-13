@@ -18,6 +18,7 @@ public class User extends BaseModel {
     private int smsCode;
     private RoleUser role;
     private double balance;
+    private long chatId;
 
     @Override
     public String toString() {
