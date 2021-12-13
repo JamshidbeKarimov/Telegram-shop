@@ -1,11 +1,14 @@
 package service;
 
-import model.MyCart;
+import jsonFile.CollectionsTypeFactory;
+import jsonFile.FileUrls;
+import jsonFile.FileUtils;
+import jsonFile.Json;
+import lombok.SneakyThrows;
 import model.Product;
 import repository.ProductRepository;
 
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +16,7 @@ import java.util.UUID;
 public class ProductService extends ProductRepository {
     @Override
     public Product get(UUID productId) {
-        for (Product product : productList) {
+        for (Product product : getProductListFromFile()) {
             if (product.getId() == productId) {
                 return product;
             }
@@ -23,7 +26,7 @@ public class ProductService extends ProductRepository {
 
     @Override
     public List<Product> getList() {
-        return productList;
+        return getProductListFromFile();
     }
 
     @Override
@@ -34,21 +37,24 @@ public class ProductService extends ProductRepository {
     @Override
     public String add(Product newProduct) {//Agar maxsulot mavjud bo'lsa, sonini oshiritb qoyadi va narxi yangi maxsulot kabi bo'lib qoladi;
         newProduct.setActive(true);
+        List<Product> productList = getProductListFromFile();
         for (Product product : productList) {
             if (product.getName().equals(newProduct.getName())
                     && product.getCategoryId() == newProduct.getCategoryId()
                     && product.getSellerId() == newProduct.getSellerId()) {
                 editById(product.getId(), newProduct);
+                setProductListToFile(productList);
                 return SUCCESS;
             }
         }
         productList.add(newProduct);
+        setProductListToFile(productList);
         return SUCCESS;
     }
 
     @Override
     public String editById(UUID id, Product editingProduct) { // NOT USED
-
+        List<Product> productList = getProductListFromFile();
         for (Product product : productList) {
             if (product.getId().equals(id)) {
                 if (editingProduct.getProductInfo() != null) {
@@ -64,6 +70,8 @@ public class ProductService extends ProductRepository {
                     product.setName(editingProduct.getName());
                 }
                 product.setUpdatedDate(editingProduct.getCreatedDate());
+
+                setProductListToFile(productList);
                 return SUCCESS;
             }
         }
@@ -72,9 +80,12 @@ public class ProductService extends ProductRepository {
 
     @Override
     public String toggleActivation(UUID productId) {
+        List<Product> productList = getProductListFromFile();
         for (Product product : productList) {
             if (product.getId().equals(productId)) {
                 product.setActive(!product.isActive());
+
+                setProductListToFile(productList);
                 return SUCCESS;
             }
         }
@@ -84,7 +95,7 @@ public class ProductService extends ProductRepository {
     @Override
     protected List<Product> getListByCategoryId(UUID categoryId) {
         List<Product> products = new ArrayList<>();
-        for (Product product : productList) {
+        for (Product product : getProductListFromFile()) {
             if (product.getCategoryId() == categoryId && product.isActive()) {
                 products.add(product);
             }
@@ -95,11 +106,29 @@ public class ProductService extends ProductRepository {
     @Override
     protected List<Product> getListBySellerId(UUID sellerId) {
         List<Product> products = new ArrayList<>();
-        for (Product product : productList) {
+        for (Product product : getProductListFromFile()) {
             if (product.getSellerId() == sellerId && product.isActive()) {
                 products.add(product);
             }
         }
         return products;
+    }
+
+    public List<Product> getProductListFromFile() {
+        String productJsonStringFromFile = FileUtils.readFromFile(FileUrls.productUrl);
+        List<Product> productList;
+        try {
+            productList = Json.objectMapper.readValue(productJsonStringFromFile, CollectionsTypeFactory.listOf(Product.class));
+        } catch (Exception e) {
+            System.out.println(e);
+            productList = new ArrayList<>();
+        }
+        return productList;
+    }
+
+    @SneakyThrows
+    public void setProductListToFile(List<Product> productList) {
+        String newProductJsonFromObject = Json.prettyPrint(productList);
+        FileUtils.writeToFile(FileUrls.userUrl, newProductJsonFromObject);
     }
 }

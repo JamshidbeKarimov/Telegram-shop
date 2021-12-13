@@ -1,5 +1,10 @@
 package service;
 
+import jsonFile.CollectionsTypeFactory;
+import jsonFile.FileUrls;
+import jsonFile.FileUtils;
+import jsonFile.Json;
+import lombok.SneakyThrows;
 import model.Notification;
 import repository.NotificationRepository;
 
@@ -10,7 +15,7 @@ import java.util.UUID;
 public class NotificationService extends NotificationRepository {
     @Override
     public Notification get(UUID id) {
-        for (Notification n: notificationList) {
+        for (Notification n: getNotificationListFromFile()) {
             if(n.getId().equals(id))
                 return n;
         }
@@ -20,7 +25,7 @@ public class NotificationService extends NotificationRepository {
     @Override
     public List<Notification> getList() {
         List<Notification> notifications = new ArrayList<>();
-        for (Notification n: notificationList) {
+        for (Notification n: getNotificationListFromFile()) {
             if (!n.isActive())
                 notifications.add(n);
         }
@@ -34,17 +39,20 @@ public class NotificationService extends NotificationRepository {
 
     @Override
     public String add(Notification notification) {
+        List<Notification> notificationList = getNotificationListFromFile();
         notificationList.add(notification);
+        setNotificationListToFile(notificationList);
         return SUCCESS;
     }
 
     @Override
     public String editById(UUID id, Notification notification) {
-        int ind = 0;
+        List<Notification> notificationList = getNotificationListFromFile();
         for (Notification n: notificationList) {
             if (n.getId().equals(id)){
                 notification.setActive(true);
-                notificationList.set(ind, notification);
+
+                setNotificationListToFile(notificationList);
                 return SUCCESS;
             }
         }
@@ -55,9 +63,12 @@ public class NotificationService extends NotificationRepository {
     // isActive --> true
     @Override
     public String toggleActivation(UUID id) {
+        List<Notification> notificationList = getNotificationListFromFile();
         for (Notification n: notificationList) {
             if (n.getId().equals(id)){
                 n.setActive(!n.isActive());
+
+                setNotificationListToFile(notificationList);
                 return SUCCESS;
             }
         }
@@ -65,14 +76,25 @@ public class NotificationService extends NotificationRepository {
     }
 
     public boolean acceptReject(int action){
-        //
+
         return action == 1; // accepted
     }
 
-    public boolean acceptReject(int action){
-        if (action == 1)
-            return true; // accepted
-        else
-            return false; //
+    public List<Notification> getNotificationListFromFile() {
+        String notificationJsonStringFromFile = FileUtils.readFromFile(FileUrls.notificationUrl);
+        List<Notification> notificationList;
+        try {
+            notificationList = Json.objectMapper.readValue(notificationJsonStringFromFile, CollectionsTypeFactory.listOf(Notification.class));
+        } catch (Exception e) {
+            System.out.println(e);
+            notificationList = new ArrayList<>();
+        }
+        return notificationList;
+    }
+
+    @SneakyThrows
+    public void setNotificationListToFile(List<Notification> notificationList) {
+        String newNotificationJsonFromObject = Json.prettyPrint(notificationList);
+        FileUtils.writeToFile(FileUrls.userUrl, newNotificationJsonFromObject);
     }
 }

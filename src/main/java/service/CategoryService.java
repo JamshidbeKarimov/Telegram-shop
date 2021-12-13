@@ -1,9 +1,14 @@
 package service;
 
+import jsonFile.CollectionsTypeFactory;
+import jsonFile.FileUrls;
+import jsonFile.FileUtils;
+import jsonFile.Json;
+import lombok.SneakyThrows;
 import model.Category;
-import model.User;
 import repository.CategoryRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +16,7 @@ public class CategoryService extends CategoryRepository {
 
     @Override
     public Category get(UUID categoryId) {
-        for (Category category : categoryList) {
+        for (Category category : getCategoryListFromFile()) {
             if (category.getId().equals(categoryId))
                 return category;
         }
@@ -20,7 +25,7 @@ public class CategoryService extends CategoryRepository {
 
     @Override
     public List<Category> getList() {
-        return categoryList;
+        return getCategoryListFromFile();
     }
 
     @Override
@@ -34,12 +39,17 @@ public class CategoryService extends CategoryRepository {
             return ERROR_CATEGORY_ALREADY_EXIST;
         }
 
+        List<Category> categoryList = getCategoryListFromFile();
         categoryList.add(category);
+
+        setCategoryListToFile(categoryList);
         return SUCCESS;
     }
 
     @Override
     public String editById(UUID categoryId, Category category) {
+        List<Category> categoryList = getCategoryListFromFile();
+
         for (Category existCategory : categoryList) {
             if (existCategory.getId().equals(categoryId)) {
                 existCategory.setName(category.getName());
@@ -49,6 +59,7 @@ public class CategoryService extends CategoryRepository {
                 existCategory.setCreatedDate(category.getCreatedDate());
                 existCategory.setUpdatedDate(category.getUpdatedDate());
 
+                setCategoryListToFile(categoryList);
                 return SUCCESS;
             }
         }
@@ -57,16 +68,43 @@ public class CategoryService extends CategoryRepository {
 
     @Override
     public String toggleActivation(UUID categoryId) {
+        List<Category> categoryList = getCategoryListFromFile();
+        for (Category category : categoryList) {
+            if (category.getId().equals(categoryId)) {
+                category.setActive(!category.isActive());
 
-        return null;
+                setCategoryListToFile(categoryList);
+                return SUCCESS;
+            }
+        }
+
+        return ERROR_CATEGORY_NOT_FOUND;
     }
 
     public boolean isCategoryExist(String categoryName) {
-        for (Category category : categoryList) {
+        for (Category category : getCategoryListFromFile()) {
             if (category.getName().equals(categoryName)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public List<Category> getCategoryListFromFile() {
+        String categoryJsonStringFromFile = FileUtils.readFromFile(FileUrls.categoryUrl);
+        List<Category> categoryList;
+        try {
+            categoryList = Json.objectMapper.readValue(categoryJsonStringFromFile, CollectionsTypeFactory.listOf(Category.class));
+        } catch (Exception e) {
+            System.out.println(e);
+            categoryList = new ArrayList<>();
+        }
+        return categoryList;
+    }
+
+    @SneakyThrows
+    public void setCategoryListToFile(List<Category> categoryList) {
+        String newCategoryJsonFromObject = Json.prettyPrint(categoryList);
+        FileUtils.writeToFile(FileUrls.userUrl, newCategoryJsonFromObject);
     }
 }

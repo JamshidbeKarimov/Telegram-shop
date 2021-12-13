@@ -2,7 +2,6 @@ package repository;
 
 import enums.RoleUser;
 import model.User;
-import repository.BaseRepository;
 
 import java.util.List;
 
@@ -10,5 +9,5 @@ public abstract class UserRepository implements BaseRepository<User, String, Lis
     protected abstract List<User> getUsers(RoleUser roleUser);
 
     public abstract String toggleActivation(String phoneNumber);
-    public abstract User login(String username, String password);
+    public abstract User login(String username);
 }

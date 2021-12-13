@@ -1,6 +1,11 @@
 package service;
 
 import enums.RoleUser;
+import jsonFile.CollectionsTypeFactory;
+import jsonFile.FileUrls;
+import jsonFile.FileUtils;
+import jsonFile.Json;
+import lombok.SneakyThrows;
 import model.User;
 import repository.UserRepository;
 
@@ -11,7 +16,7 @@ import java.util.UUID;
 public class UserService extends UserRepository {
     @Override
     public User get(UUID userId) {
-        for (User user : userList) {
+        for (User user : getUserListFromFile()) {
             if (user.getId().equals(userId)) {
                 return user;
             }
@@ -21,7 +26,7 @@ public class UserService extends UserRepository {
 
     @Override
     public List<User> getList() {
-        return userList;
+        return getUserListFromFile();
     }
 
     @Override
@@ -34,20 +39,21 @@ public class UserService extends UserRepository {
         if (isPhoneNumberExist(user.getPhoneNumber())) {
             return ERROR_USER_ALREADY_EXIST;
         }
+        List<User> userList = getUserListFromFile();
         userList.add(user);
+        setUserListToFile(userList);
         return SUCCESS;
     }
 
     @Override
     public String editById(UUID userId, User editedUser) {
+        List<User> userList = getUserListFromFile();
         for (User user : userList) {
             if (user.getId().equals(userId)) {
                 user.setUsername(editedUser.getUsername());
                 user.setBalance(editedUser.getBalance());
-                user.setPassword(editedUser.getPassword());
                 user.setRole(editedUser.getRole());
                 user.setPhoneNumber(editedUser.getPhoneNumber());
-                user.setSmsCode(editedUser.getSmsCode());
                 user.setActive(editedUser.isActive());
                 user.setName(editedUser.getName());
                 user.setCreatedBy(editedUser.getCreatedBy());
@@ -55,6 +61,7 @@ public class UserService extends UserRepository {
                 user.setCreatedDate(editedUser.getCreatedDate());
                 user.setUpdatedDate(editedUser.getUpdatedDate());
 
+                setUserListToFile(userList);
                 return SUCCESS;
             }
         }
@@ -62,14 +69,23 @@ public class UserService extends UserRepository {
     }
 
     @Override
-    public String toggleActivation(UUID id) {
-        return null;
+    public String toggleActivation(UUID userId) {   // user id boyicha activate qilish
+        List<User> userList = getUserListFromFile();
+        for (User user : userList) {
+            if (user.getId().equals(userId)) {
+                user.setActive(!user.isActive());
+
+                setUserListToFile(userList);
+                return SUCCESS;
+            }
+        }
+        return ERROR_USER_NOT_FOUND;
     }
 
     @Override
     protected List<User> getUsers(RoleUser roleUser) {
         List<User> users = new ArrayList<>();
-        for (User user : userList) {
+        for (User user : getUserListFromFile()) {
             if (user.getRole().equals(roleUser)) {
                 users.add(user);
             }
@@ -78,10 +94,12 @@ public class UserService extends UserRepository {
     }
 
     @Override
-    public String toggleActivation(String phoneNumber) {
+    public String toggleActivation(String phoneNumber) {  // phone boyicha activate qilish
+        List<User> userList = getUserListFromFile();
         for (User user : userList) {
             if (user.getPhoneNumber().equals(phoneNumber)) {
                 user.setActive(!user.isActive());
+                setUserListToFile(userList);
                 return SUCCESS;
             }
         }
@@ -89,9 +107,9 @@ public class UserService extends UserRepository {
     }
 
     @Override
-    public User login(String username, String password) {
-        for (User user : userList) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+    public User login(String username) {
+        for (User user : getUserListFromFile()) {
+            if (user.getUsername().equals(username)) {
                 return user;
             }
         }
@@ -99,7 +117,7 @@ public class UserService extends UserRepository {
     }
 
     public boolean isUsernameExist(String username) {
-        for (User user : userList) {
+        for (User user : getUserListFromFile()) {
          if (user.getUsername().equals(username))
              return true;
         }
@@ -107,11 +125,29 @@ public class UserService extends UserRepository {
     }
 
     public boolean isPhoneNumberExist(String phoneNumber) {
-        for (User user : userList) {
+        for (User user : getUserListFromFile()) {
             if (user.getPhoneNumber().equals(phoneNumber)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public List<User> getUserListFromFile() {
+        String userJsonStringFromFile = FileUtils.readFromFile(FileUrls.userUrl);
+        List<User> userList;
+        try {
+            userList = Json.objectMapper.readValue(userJsonStringFromFile, CollectionsTypeFactory.listOf(User.class));
+        } catch (Exception e) {
+            System.out.println(e);
+            userList = new ArrayList<>();
+        }
+        return userList;
+    }
+
+    @SneakyThrows
+    public void setUserListToFile(List<User> userList) {
+        String newUserJsonFromObject = Json.prettyPrint(userList);
+        FileUtils.writeToFile(FileUrls.userUrl, newUserJsonFromObject);
     }
 }

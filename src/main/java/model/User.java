@@ -4,8 +4,10 @@ package model;
 import enums.RoleUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -13,12 +15,11 @@ import lombok.NoArgsConstructor;
 public class User extends BaseModel {
 
     private String username;
-    private String password;
+    private String location;
     private String phoneNumber;
-    private int smsCode;
     private RoleUser role;
     private double balance;
-    private long chatId;
+    private String chatId;
 
     @Override
     public String toString() {
@@ -28,6 +29,7 @@ public class User extends BaseModel {
         str += "\t|\tIS ACTIVE: " + isActive +
                 "\t|\tUSERNAME: " + username +
                 "\t|\tPHONE NUMBER: " + phoneNumber +
+                "\t|\tLOCATION: " + location +
                 "\t|\tBALANCE: " + balance + " |";
         return str;
     }

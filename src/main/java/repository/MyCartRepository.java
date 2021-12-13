@@ -1,10 +1,8 @@
 package repository;
 
 import model.MyCart;
-import model.Product;
 
 import java.util.List;
-import java.util.UUID;
 
 public abstract class MyCartRepository implements BaseRepository<MyCart, String, List<MyCart>> {
 
