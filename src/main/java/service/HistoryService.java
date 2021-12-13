@@ -1,7 +1,11 @@
 package service;
 
+import jsonFile.CollectionsTypeFactory;
+import jsonFile.FileUrls;
+import jsonFile.FileUtils;
+import jsonFile.Json;
+import lombok.SneakyThrows;
 import model.History;
-import model.User;
 import repository.HistoryRepository;
 
 import java.util.ArrayList;
@@ -17,7 +21,7 @@ public class HistoryService extends HistoryRepository {
 
     @Override
     public List<History> getList() {
-        return historyList;
+        return getHistoryListFromFile();
     }
 
 
@@ -28,7 +32,10 @@ public class HistoryService extends HistoryRepository {
 
     @Override
     public String add(History history) {
+        List<History> historyList = getHistoryListFromFile();
         historyList.add(history);
+
+        setHistoryListToFile(historyList);
         return SUCCESS;
     }
 
@@ -44,7 +51,7 @@ public class HistoryService extends HistoryRepository {
 
     GetHistories getSellerHistories = sellerId -> {
         StringBuilder sb = new StringBuilder();
-        for (History history : historyList) {
+        for (History history : getHistoryListFromFile()) {
             if (history.getSellerId().equals(sellerId)) {
                 String s = "seller: you || " +
                         "buyer: " + history.getUserName() +
@@ -59,7 +66,7 @@ public class HistoryService extends HistoryRepository {
 
     GetHistories getUserHistories = userId -> {
         StringBuilder sb = new StringBuilder();
-        for (History history : historyList) {
+        for (History history : getHistoryListFromFile()) {
             if (history.getUserId().equals(userId)) {
                 String s = "buyer: you" +
                             "|| seller" + history.getSellerName() +
@@ -71,4 +78,23 @@ public class HistoryService extends HistoryRepository {
         }
         return sb;
     };
+
+
+    public List<History> getHistoryListFromFile() {
+        String historyJsonStringFromFile = FileUtils.readFromFile(FileUrls.historyUrl);
+        List<History> historyList;
+        try {
+            historyList = Json.objectMapper.readValue(historyJsonStringFromFile, CollectionsTypeFactory.listOf(History.class));
+        } catch (Exception e) {
+            System.out.println(e);
+            historyList = new ArrayList<>();
+        }
+        return historyList;
+    }
+
+    @SneakyThrows
+    public void setHistoryListToFile(List<History> historyList) {
+        String newHistoryJsonFromObject = Json.prettyPrint(historyList);
+        FileUtils.writeToFile(FileUrls.userUrl, newHistoryJsonFromObject);
+    }
 }

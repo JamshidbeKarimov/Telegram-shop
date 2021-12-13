@@ -1,10 +1,13 @@
 package service;
 
+import jsonFile.CollectionsTypeFactory;
+import jsonFile.FileUrls;
+import jsonFile.FileUtils;
+import jsonFile.Json;
+import lombok.SneakyThrows;
 import model.MyCart;
-import model.Product;
 import repository.MyCartRepository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,14 +21,14 @@ public class MyCartService extends MyCartRepository {
 
     @Override
     public List<MyCart> getList() {
-        return myCartList;
+        return getMyCartListFromFile();
     }
 
     @Override
     public List<MyCart> getList(UUID userId) {
         List<MyCart> myCarts = new ArrayList<>();
 
-        for (MyCart m:myCartList) {
+        for (MyCart m : getMyCartListFromFile()) {
             if(m.getUserId().equals(userId))
                 myCarts.add(m);
         }
@@ -35,7 +38,11 @@ public class MyCartService extends MyCartRepository {
 
     @Override
     public String add(MyCart myCart) {
+        List<MyCart> myCartList = getMyCartListFromFile();
+
         myCartList.add(myCart);
+
+        setMyCartListToFile(myCartList);
         return SUCCESS;
     }
 
@@ -53,5 +60,23 @@ public class MyCartService extends MyCartRepository {
 
     protected String buy(List<MyCart> myCartList) {
         return null;
+    }
+
+    public List<MyCart> getMyCartListFromFile() {
+        String myCartJsonStringFromFile = FileUtils.readFromFile(FileUrls.myCartUrl);
+        List<MyCart> myCartList;
+        try {
+            myCartList = Json.objectMapper.readValue(myCartJsonStringFromFile, CollectionsTypeFactory.listOf(MyCart.class));
+        } catch (Exception e) {
+            System.out.println(e);
+            myCartList = new ArrayList<>();
+        }
+        return myCartList;
+    }
+
+    @SneakyThrows
+    public void setMyCartListToFile(List<MyCart> myCartList) {
+        String newMyCartJsonFromObject = Json.prettyPrint(myCartList);
+        FileUtils.writeToFile(FileUrls.userUrl, newMyCartJsonFromObject);
     }
 }
