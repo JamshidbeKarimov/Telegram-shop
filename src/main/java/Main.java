@@ -1,15 +1,15 @@
+import lombok.SneakyThrows;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import telegramBot.MyBot;
+import telegramBot.AmazonBot;
 
-public class Main{
+public class Main {
+    @SneakyThrows
     public static void main(String[] args) {
-        try {
-            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            botsApi.registerBot(new MyBot());
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+        botsApi.registerBot(new AmazonBot());
+
+        System.out.println("Bot is running bro :smile: ");
     }
 }
