@@ -7,4 +7,4 @@
 /dataSources/
 /dataSources.local.xml
 ../target
-../src/main/java/jsonFile/FileUrls.java
+../../src/main/java/jsonFile/FileUrls.java

@@ -79,24 +79,10 @@ public class ProductService extends ProductRepository {
     }
 
     @Override
-    public String toggleActivation(UUID productId) {
-        List<Product> productList = getProductListFromFile();
-        for (Product product : productList) {
-            if (product.getId().equals(productId)) {
-                product.setActive(!product.isActive());
-
-                setProductListToFile(productList);
-                return SUCCESS;
-            }
-        }
-        return ERROR_ID_NOT_FOUND;
-    }
-
-    @Override
-    protected List<Product> getListByCategoryId(UUID categoryId) {
+    public List<Product> getListByCategoryId(UUID categoryId) {
         List<Product> products = new ArrayList<>();
         for (Product product : getProductListFromFile()) {
-            if (product.getCategoryId() == categoryId && product.isActive()) {
+            if (product.getCategoryId().equals(categoryId)) {
                 products.add(product);
             }
         }
@@ -107,7 +93,7 @@ public class ProductService extends ProductRepository {
     protected List<Product> getListBySellerId(UUID sellerId) {
         List<Product> products = new ArrayList<>();
         for (Product product : getProductListFromFile()) {
-            if (product.getSellerId() == sellerId && product.isActive()) {
+            if (product.getSellerId().equals(sellerId)) {
                 products.add(product);
             }
         }
@@ -129,6 +115,6 @@ public class ProductService extends ProductRepository {
     @SneakyThrows
     public void setProductListToFile(List<Product> productList) {
         String newProductJsonFromObject = Json.prettyPrint(productList);
-        FileUtils.writeToFile(FileUrls.userUrl, newProductJsonFromObject);
+        FileUtils.writeToFile(FileUrls.productUrl, newProductJsonFromObject);
     }
 }

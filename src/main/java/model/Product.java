@@ -19,14 +19,11 @@ public class Product extends BaseModel {
     @Override
     public String toString() {
 
-        String str = "| NAME='" + name +
-                "\t|\tCREATED DATE: " + createdDate;
-        if (updatedDate != null)
-            str += "\t|\tUPDATED DATE: " + updatedDate;
-        str += "\t|\tIS ACTIVE: " + isActive +
-                "\t\tPRICE: " + price +
-                "\t\tAMOUNT: " + amount +
-                "\t\tPRODUCT INFO: " + productInfo + " |";
-        return str;
+        return " NAME =   " + name +
+                "\nCREATED DATE :   " + createdDate +
+                "\nIS ACTIVE :   " + isActive +
+                "\nPRICE :   " + price +
+                "\nAMOUNT :   " + amount +
+                "\nPRODUCT INFO :  " + productInfo + " |";
     }
 }

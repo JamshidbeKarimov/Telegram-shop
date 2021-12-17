@@ -68,22 +68,19 @@ public class UserService extends UserRepository {
         return ERROR_USER_NOT_FOUND;
     }
 
-    @Override
-    public String toggleActivation(UUID userId) {   // user id boyicha activate qilish
-        List<User> userList = getUserListFromFile();
-        for (User user : userList) {
-            if (user.getId().equals(userId)) {
-                user.setActive(!user.isActive());
 
-                setUserListToFile(userList);
-                return SUCCESS;
+    @Override
+    public List<User> getUsers(RoleUser roleUser) {
+        List<User> users = new ArrayList<>();
+        for (User user : getUserListFromFile()) {
+            if (user.getRole().equals(roleUser) && user.isActive()) {
+                users.add(user);
             }
         }
-        return ERROR_USER_NOT_FOUND;
+        return users;
     }
 
-    @Override
-    protected List<User> getUsers(RoleUser roleUser) {
+    public List<User> getAllUsers(RoleUser roleUser) {
         List<User> users = new ArrayList<>();
         for (User user : getUserListFromFile()) {
             if (user.getRole().equals(roleUser)) {
@@ -107,21 +104,45 @@ public class UserService extends UserRepository {
     }
 
     @Override
-    public User login(String username) {
+    public User login(String chatId) {
         for (User user : getUserListFromFile()) {
-            if (user.getUsername().equals(username)) {
+            if (user.getChatId().equals(chatId)) {
                 return user;
             }
         }
         return null;
     }
 
-    public boolean isUsernameExist(String username) {
-        for (User user : getUserListFromFile()) {
-         if (user.getUsername().equals(username))
-             return true;
+    @Override
+    public void editByChatId(String userChatId, User editedUser) {
+        List<User> userList = getUserListFromFile();
+        int index = 0;
+        for (User user : userList) {
+            if (user.getChatId().equals(userChatId)) {
+                if (editedUser.getUsername() != null)
+                    user.setUsername(editedUser.getUsername());
+                if (editedUser.getBalance() != 0)
+                    user.setBalance(editedUser.getBalance());
+                if (editedUser.getRole() != null)
+                    user.setRole(editedUser.getRole());
+                if (editedUser.getUserState() != null)
+                    user.setUserState(editedUser.getUserState());
+                if (editedUser.getPhoneNumber() != null)
+                    user.setPhoneNumber(editedUser.getPhoneNumber());
+                if (editedUser.getLocation() != null)
+                    user.setLocation(editedUser.getLocation());
+                if (editedUser.getName() != null)
+                    user.setName(editedUser.getName());
+
+                user.setActive(editedUser.isActive());
+                user.setUpdatedDate(editedUser.getCreatedDate());
+                userList.set(index, user);
+                setUserListToFile(userList);
+                return;
+            }
+            index++;
         }
-        return false;
+
     }
 
     public boolean isPhoneNumberExist(String phoneNumber) {

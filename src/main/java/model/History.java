@@ -20,5 +20,16 @@ public class History extends BaseModel{
     private String productName;
     private int amount;
 
-
+    @Override
+    public String toString() {
+        return " createdDate =  " + createdDate +
+                "\nupdatedDate =  " + updatedDate +
+                "\ncreatedBy =  " + createdBy +
+                "\nuserId =  " + userId +
+                "\nsellerId =  " + sellerId +
+                "\nuserName =  " + userName +
+                "\nsellerName =  " + sellerName +
+                "\nproductName =  " + productName +
+                "\namount =  " + amount;
+    }
 }

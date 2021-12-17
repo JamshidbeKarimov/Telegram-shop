@@ -52,11 +52,6 @@ public class MyCartService extends MyCartRepository {
     }
 
     @Override
-    public String toggleActivation(UUID id) {
-        return null;
-    }
-
-    @Override
 
     protected String buy(List<MyCart> myCartList) {
         return null;
@@ -77,6 +72,6 @@ public class MyCartService extends MyCartRepository {
     @SneakyThrows
     public void setMyCartListToFile(List<MyCart> myCartList) {
         String newMyCartJsonFromObject = Json.prettyPrint(myCartList);
-        FileUtils.writeToFile(FileUrls.userUrl, newMyCartJsonFromObject);
+        FileUtils.writeToFile(FileUrls.myCartUrl, newMyCartJsonFromObject);
     }
 }

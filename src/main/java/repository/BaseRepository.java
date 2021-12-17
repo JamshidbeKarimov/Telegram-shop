@@ -15,6 +15,4 @@ public interface BaseRepository<T, R, RL> extends BaseResponse {
     R add(T t);
 
     R editById(UUID id, T t);
-
-    R toggleActivation(UUID id);
 }

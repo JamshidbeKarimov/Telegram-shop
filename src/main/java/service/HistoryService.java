@@ -44,25 +44,6 @@ public class HistoryService extends HistoryRepository {
         return null;
     }
 
-    @Override
-    public String toggleActivation(UUID id) {
-        return null;
-    }
-
-    GetHistories getSellerHistories = sellerId -> {
-        StringBuilder sb = new StringBuilder();
-        for (History history : getHistoryListFromFile()) {
-            if (history.getSellerId().equals(sellerId)) {
-                String s = "seller: you || " +
-                        "buyer: " + history.getUserName() +
-                        "|| product name: " + history.getProductName() +
-                        "|| product amount: " + history.getAmount() +
-                        "|| bought day: " + history.getCreatedDate();
-                sb.append(s);
-            }
-        }
-        return sb;
-    };
 
     GetHistories getUserHistories = userId -> {
         StringBuilder sb = new StringBuilder();
@@ -95,6 +76,6 @@ public class HistoryService extends HistoryRepository {
     @SneakyThrows
     public void setHistoryListToFile(List<History> historyList) {
         String newHistoryJsonFromObject = Json.prettyPrint(historyList);
-        FileUtils.writeToFile(FileUrls.userUrl, newHistoryJsonFromObject);
+        FileUtils.writeToFile(FileUrls.historyUrl, newHistoryJsonFromObject);
     }
 }

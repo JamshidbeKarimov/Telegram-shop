@@ -28,6 +28,15 @@ public class CategoryService extends CategoryRepository {
         return getCategoryListFromFile();
     }
 
+    public Category getByCategoryName(String categoryName) {
+        for (Category category : getCategoryListFromFile()) {
+            if (category.getName().equals(categoryName)) {
+                return category;
+            }
+        }
+        return null;
+    }
+
     @Override
     public List<Category> getList(UUID id) {
         return null;
@@ -66,21 +75,6 @@ public class CategoryService extends CategoryRepository {
         return ERROR_USER_NOT_FOUND;
     }
 
-    @Override
-    public String toggleActivation(UUID categoryId) {
-        List<Category> categoryList = getCategoryListFromFile();
-        for (Category category : categoryList) {
-            if (category.getId().equals(categoryId)) {
-                category.setActive(!category.isActive());
-
-                setCategoryListToFile(categoryList);
-                return SUCCESS;
-            }
-        }
-
-        return ERROR_CATEGORY_NOT_FOUND;
-    }
-
     public boolean isCategoryExist(String categoryName) {
         for (Category category : getCategoryListFromFile()) {
             if (category.getName().equals(categoryName)) {
@@ -105,6 +99,6 @@ public class CategoryService extends CategoryRepository {
     @SneakyThrows
     public void setCategoryListToFile(List<Category> categoryList) {
         String newCategoryJsonFromObject = Json.prettyPrint(categoryList);
-        FileUtils.writeToFile(FileUrls.userUrl, newCategoryJsonFromObject);
+        FileUtils.writeToFile(FileUrls.categoryUrl, newCategoryJsonFromObject);
     }
 }

@@ -59,22 +59,6 @@ public class NotificationService extends NotificationRepository {
         return ERROR_NOTIFICATION_NOT_FOUND;
     }
 
-
-    // isActive --> true
-    @Override
-    public String toggleActivation(UUID id) {
-        List<Notification> notificationList = getNotificationListFromFile();
-        for (Notification n: notificationList) {
-            if (n.getId().equals(id)){
-                n.setActive(!n.isActive());
-
-                setNotificationListToFile(notificationList);
-                return SUCCESS;
-            }
-        }
-        return ERROR_NOTIFICATION_NOT_FOUND;
-    }
-
     public boolean acceptReject(int action){
 
         return action == 1; // accepted
@@ -95,6 +79,6 @@ public class NotificationService extends NotificationRepository {
     @SneakyThrows
     public void setNotificationListToFile(List<Notification> notificationList) {
         String newNotificationJsonFromObject = Json.prettyPrint(notificationList);
-        FileUtils.writeToFile(FileUrls.userUrl, newNotificationJsonFromObject);
+        FileUtils.writeToFile(FileUrls.notificationUrl, newNotificationJsonFromObject);
     }
 }
