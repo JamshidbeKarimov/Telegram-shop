@@ -22,14 +22,24 @@ public class NotificationService extends NotificationRepository {
         return null;
     }
 
+    public Notification getBySellerChatId(String sellerChatId) {
+        for (Notification notification : getNotificationListFromFile()) {
+            if (notification.getSellerChatId().equals(sellerChatId)) {
+                return notification;
+            }
+        }
+        return null;
+    }
+
     @Override
     public List<Notification> getList() {
-        List<Notification> notifications = new ArrayList<>();
-        for (Notification n: getNotificationListFromFile()) {
-            if (!n.isActive())
-                notifications.add(n);
+        List<Notification> notificationList = new ArrayList<>();
+        for (Notification notification : getNotificationListFromFile()) {
+            if (notification.isActive()) {
+                notificationList.add(notification);
+            }
         }
-        return notifications;
+        return notificationList;
     }
 
     @Override
@@ -47,26 +57,17 @@ public class NotificationService extends NotificationRepository {
 
     @Override
     public String editById(UUID id, Notification notification) {
-        List<Notification> notificationList = getNotificationListFromFile();
-        for (Notification n: notificationList) {
-            if (n.getId().equals(id)){
-                notification.setActive(true);
-
-                setNotificationListToFile(notificationList);
-                return SUCCESS;
-            }
-        }
-        return ERROR_NOTIFICATION_NOT_FOUND;
+        return null;
     }
 
 
-    // isActive --> true
-    @Override
-    public String toggleActivation(UUID id) {
+    public String editBySellerId(String sellerChatId, Notification editingNotification) {
         List<Notification> notificationList = getNotificationListFromFile();
-        for (Notification n: notificationList) {
-            if (n.getId().equals(id)){
-                n.setActive(!n.isActive());
+        for (Notification notification : notificationList) {
+            if (notification.getSellerChatId().equals(sellerChatId)) {
+                notification.setActive(editingNotification.isActive());
+                notification.setName(editingNotification.getName());
+                notification.setMessage(editingNotification.getMessage());
 
                 setNotificationListToFile(notificationList);
                 return SUCCESS;
@@ -95,6 +96,6 @@ public class NotificationService extends NotificationRepository {
     @SneakyThrows
     public void setNotificationListToFile(List<Notification> notificationList) {
         String newNotificationJsonFromObject = Json.prettyPrint(notificationList);
-        FileUtils.writeToFile(FileUrls.userUrl, newNotificationJsonFromObject);
+        FileUtils.writeToFile(FileUrls.notificationUrl, newNotificationJsonFromObject);
     }
 }

@@ -9,5 +9,6 @@ public abstract class UserRepository implements BaseRepository<User, String, Lis
     protected abstract List<User> getUsers(RoleUser roleUser);
 
     public abstract String toggleActivation(String phoneNumber);
-    public abstract User login(String username);
+    public abstract User login(String chatId);
+    public abstract void editByChatId(String userChatId, User editedUser);
 }

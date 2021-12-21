@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import model.History;
 import repository.HistoryRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -44,35 +45,16 @@ public class HistoryService extends HistoryRepository {
         return null;
     }
 
-    @Override
-    public String toggleActivation(UUID id) {
-        return null;
-    }
 
-    GetHistories getSellerHistories = sellerId -> {
+    public GetHistories getUserHistories = userId -> {
         StringBuilder sb = new StringBuilder();
-        for (History history : getHistoryListFromFile()) {
-            if (history.getSellerId().equals(sellerId)) {
-                String s = "seller: you || " +
-                        "buyer: " + history.getUserName() +
-                        "|| product name: " + history.getProductName() +
-                        "|| product amount: " + history.getAmount() +
-                        "|| bought day: " + history.getCreatedDate();
-                sb.append(s);
-            }
-        }
-        return sb;
-    };
-
-    GetHistories getUserHistories = userId -> {
-        StringBuilder sb = new StringBuilder();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         for (History history : getHistoryListFromFile()) {
             if (history.getUserId().equals(userId)) {
-                String s = "buyer: you" +
-                            "|| seller" + history.getSellerName() +
-                            "|| product name: " + history.getProductName() +
-                            "|| product amount: " + history.getAmount() +
-                            "|| bought day: " + history.getCreatedDate();
+                String s = "Seller: " + history.getSellerName() +
+                        "\t|\tProduct name: " + history.getProductName() +
+                        "\t|\tProduct amount: " + history.getAmount() +
+                        "\t|\tBought day: " + df.format(history.getCreatedDate()) + "\n\n";
                 sb.append(s);
             }
         }
@@ -95,6 +77,6 @@ public class HistoryService extends HistoryRepository {
     @SneakyThrows
     public void setHistoryListToFile(List<History> historyList) {
         String newHistoryJsonFromObject = Json.prettyPrint(historyList);
-        FileUtils.writeToFile(FileUrls.userUrl, newHistoryJsonFromObject);
+        FileUtils.writeToFile(FileUrls.historyUrl, newHistoryJsonFromObject);
     }
 }
