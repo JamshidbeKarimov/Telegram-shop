@@ -11,6 +11,7 @@ import repository.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ProductService extends ProductRepository {
@@ -36,20 +37,19 @@ public class ProductService extends ProductRepository {
 
     @Override
     public String add(Product newProduct) {//Agar maxsulot mavjud bo'lsa, sonini oshiritb qoyadi va narxi yangi maxsulot kabi bo'lib qoladi;
-        newProduct.setActive(true);
         List<Product> productList = getProductListFromFile();
+        int cnt=0;
         for (Product product : productList) {
-            if (product.getName().equals(newProduct.getName())
-                    && product.getCategoryId() == newProduct.getCategoryId()
-                    && product.getSellerId() == newProduct.getSellerId()) {
-                editById(product.getId(), newProduct);
-                setProductListToFile(productList);
-                return SUCCESS;
+            if (product.getName() != null && product.getName().equals(newProduct.getName())) {
+                cnt++;
             }
         }
-        productList.add(newProduct);
-        setProductListToFile(productList);
-        return SUCCESS;
+        if (cnt==0){
+            productList.add(newProduct);
+            setProductListToFile(productList);
+            return SUCCESS;
+        }
+        return ERROR_PRODUCT_ALREADY_EXIST;
     }
 
     @Override
@@ -116,5 +116,68 @@ public class ProductService extends ProductRepository {
     public void setProductListToFile(List<Product> productList) {
         String newProductJsonFromObject = Json.prettyPrint(productList);
         FileUtils.writeToFile(FileUrls.productUrl, newProductJsonFromObject);
+    }
+
+    public String editBySellerName(Product editedProduct) {
+        List<Product> productList = getProductListFromFile();
+        int index = 0;
+        for (Product product : productList) {
+            if (product.getName().equals(editedProduct.getName())) {
+                if (editedProduct.getName() != null)
+                    product.setName(editedProduct.getName());
+
+                if (editedProduct.getPrice() != 0)
+                    product.setPrice(editedProduct.getPrice());
+
+                if (editedProduct.getProductInfo() != null)
+                    product.setProductInfo(editedProduct.getProductInfo());
+
+                if (editedProduct.getFileUrlPhoto() != null)
+                    product.setFileUrlPhoto(editedProduct.getFileUrlPhoto());
+
+                product.setActive(editedProduct.isActive());
+
+                productList.set(index, product);
+                setProductListToFile(productList);
+                return SUCCESS;
+            }
+            index++;
+        }
+        return ERROR_USER_NOT_FOUND;
+    }
+
+    public String editByProductName(String name, Product editedProduct) {
+        List<Product> productList = getProductListFromFile();
+        int index = 0;
+        for (Product product : productList) {
+            if (product.getName().equals(name)) {
+                if (editedProduct.getPrice() != 0)
+                    product.setPrice(editedProduct.getPrice());
+
+                if (editedProduct.getProductInfo() != null)
+                    product.setProductInfo(editedProduct.getProductInfo());
+
+                if (editedProduct.getFileUrlPhoto() != null)
+                    product.setFileUrlPhoto(editedProduct.getFileUrlPhoto());
+
+                product.setActive(editedProduct.isActive());
+
+                productList.set(index, product);
+                setProductListToFile(productList);
+                return SUCCESS;
+            }
+            index++;
+        }
+        return ERROR_USER_NOT_FOUND;
+    }
+
+    public Product checkProduct(String productName) {
+
+        for (Product product : getProductListFromFile()) {
+            if (product.getName() != null && product.getName().equals(productName)) {
+                return product;
+            }
+        }
+        return null;
     }
 }

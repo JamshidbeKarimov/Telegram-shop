@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import model.History;
 import repository.HistoryRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -45,15 +46,15 @@ public class HistoryService extends HistoryRepository {
     }
 
 
-    GetHistories getUserHistories = userId -> {
+    public GetHistories getUserHistories = userId -> {
         StringBuilder sb = new StringBuilder();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         for (History history : getHistoryListFromFile()) {
             if (history.getUserId().equals(userId)) {
-                String s = "buyer: you" +
-                            "|| seller" + history.getSellerName() +
-                            "|| product name: " + history.getProductName() +
-                            "|| product amount: " + history.getAmount() +
-                            "|| bought day: " + history.getCreatedDate();
+                String s = "Seller: " + history.getSellerName() +
+                        "\t|\tProduct name: " + history.getProductName() +
+                        "\t|\tProduct amount: " + history.getAmount() +
+                        "\t|\tBought day: " + df.format(history.getCreatedDate()) + "\n\n";
                 sb.append(s);
             }
         }

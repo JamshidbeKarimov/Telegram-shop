@@ -9,13 +9,17 @@ import lombok.NoArgsConstructor;
 @Data
 public class Notification extends BaseModel {
     String message;
+    String sellerChatId;
     // isActive  ->  have been read;
     // isNotActive -> have not been read
 
 
     @Override
     public String toString() {
-        return "| CREATED DATE: " + createdDate +
-                "\t\tMESSAGE: " + message + " |";
+        return " SELLER NAME :     " + name +
+                "\ncreatedDate :     " + createdDate.getTime() +
+                "\ncreatedBy :    " + createdBy +
+                "\nisActive :      " + isActive +
+                "\nmessage :  " + message;
     }
 }

@@ -23,6 +23,9 @@ public interface AdminInterface {
     String ADMIN_DEACTIVATE_CATEGORY = "adminDeactivateCategory";
     String ADMIN_ACTIVATE_CATEGORY = "adminActivateCategory";
     String ADMIN_SEND_CATEGORY_INFO_FILE = "sendCategoryFullInfoFile";
-    String ADMIN_BLOCK_SELLER_PROCESS = "block seller";
+    String ADMIN_ACCEPT_SELLER_REQUEST = "accept";
+    String ADMIN_REJECT_SELLER_REQUEST = "reject";
+    String SELLER_REQUEST = "seller request";
     String ADMIN_BACK = "back";
+    String NONE = "none";
 }

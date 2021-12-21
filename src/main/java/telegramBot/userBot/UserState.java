@@ -1,9 +1,7 @@
 package telegramBot.userBot;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
-@AllArgsConstructor
+
 
 public enum UserState {
     START_NEW_USER,
@@ -13,28 +11,12 @@ public enum UserState {
     CATEGORIES,
     PRODUCTS,
     PRODUCT_INFO,
-    ADD_TO_CART;
-
-    public UserState forward(UserState userState){
-
-
-        int state = userState.ordinal();
-        UserState[] values = UserState.values();
-        if(values.length - 1 != state){
-            return values[state + 1];
-        }
-        return null;
-    }
-
-    public UserState back(UserState userState){
-
-        int state = userState.ordinal();
-        UserState[] values = UserState.values();
-        if(state != 1 ){
-            return values[state - 1];
-        }
-
-        return null;
-    }
+    ADD_TO_CART,
+    PRODUCT_ADDED,
+    MY_CART,
+    CHANGE_PRODUCT_AMOUNT,
+    ORDER,
+    PAY,
+    HISTORY;
 
 }

@@ -57,6 +57,16 @@ public class MyCartService extends MyCartRepository {
         return null;
     }
 
+    @Override
+    public double myPurchase(UUID userID) {
+        double overall = 0;
+        for (MyCart cart : getList(userID)) {
+            overall += cart.getAmount() * cart.getPrice();
+        }
+
+        return overall;
+    }
+
     public List<MyCart> getMyCartListFromFile() {
         String myCartJsonStringFromFile = FileUtils.readFromFile(FileUrls.myCartUrl);
         List<MyCart> myCartList;
@@ -73,5 +83,17 @@ public class MyCartService extends MyCartRepository {
     public void setMyCartListToFile(List<MyCart> myCartList) {
         String newMyCartJsonFromObject = Json.prettyPrint(myCartList);
         FileUtils.writeToFile(FileUrls.myCartUrl, newMyCartJsonFromObject);
+    }
+
+    public void delete(UUID myCartId) {
+        List<MyCart> myCartList = getMyCartListFromFile();
+        for (MyCart cart: myCartList) {
+            if(cart.getId().equals(myCartId)) {
+                myCartList.remove(cart);
+                break;
+            }
+        }
+
+        setMyCartListToFile(myCartList);
     }
 }

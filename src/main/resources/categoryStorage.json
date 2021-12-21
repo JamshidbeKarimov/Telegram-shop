@@ -1,96 +1,40 @@
 [ {
-  "id" : "663b0e44-980a-4c85-9f2b-fd29c4a3e91a",
-  "name" : "tech",
-  "createdDate" : 1639511767007,
-  "updatedDate" : 1639712441769,
+  "id" : "b0a2598d-692a-4d9a-a0cc-940ef78922b4",
+  "name" : "📱Phones",
+  "createdDate" : 1639580023940,
+  "updatedDate" : null,
   "createdBy" : null,
   "updatedBy" : null,
   "active" : true
 }, {
-  "id" : "ca22ef49-e6bc-45a3-9351-729db95c573b",
-  "name" : "clothes",
-  "createdDate" : 1639657239756,
-  "updatedDate" : 1639712467807,
+  "id" : "110eb702-c070-416f-a061-af5f574ea90f",
+  "name" : "💻 PCs",
+  "createdDate" : 1639580039507,
+  "updatedDate" : null,
+  "createdBy" : null,
+  "updatedBy" : null,
+  "active" : true
+}, {
+  "id" : "e5949e0c-14f6-4b13-aa61-6bbde43e5634",
+  "name" : "🖨 Printer",
+  "createdDate" : 1639580052550,
+  "updatedDate" : null,
   "createdBy" : null,
   "updatedBy" : null,
   "active" : false
 }, {
-  "id" : "97e53212-fd6b-4c28-a3cc-70b0e2e4db94",
-  "name" : "smatrphones",
-  "createdDate" : 1639658045566,
-  "updatedDate" : 1639673399654,
-  "createdBy" : null,
-  "updatedBy" : null,
-  "active" : false
-}, {
-  "id" : "ee336c26-420b-4276-b290-5d11aee75bb9",
-  "name" : "lapptop",
-  "createdDate" : 1639658893834,
-  "updatedDate" : 1639678250011,
+  "id" : "2e96d3c5-2ef0-42ae-9d27-7eee876da80e",
+  "name" : "📷 Camera",
+  "createdDate" : 1639580065770,
+  "updatedDate" : null,
   "createdBy" : null,
   "updatedBy" : null,
   "active" : true
 }, {
-  "id" : "712f4252-a7e3-44d0-96b0-9ad56ab6a32a",
-  "name" : "smart watches",
-  "createdDate" : 1639659018535,
-  "updatedDate" : 1639659040264,
-  "createdBy" : null,
-  "updatedBy" : null,
-  "active" : true
-}, {
-  "id" : "d1d8d6e1-f45f-473a-a8d4-4f272c23e494",
-  "name" : "fruits",
-  "createdDate" : 1639669895241,
-  "updatedDate" : 1639678277720,
-  "createdBy" : null,
-  "updatedBy" : null,
-  "active" : false
-}, {
-  "id" : "23916c0b-aaf0-4763-9288-423f3fffb6f4",
-  "name" : "vegetables",
-  "createdDate" : 1639673608373,
-  "updatedDate" : 1639676706957,
-  "createdBy" : null,
-  "updatedBy" : null,
-  "active" : false
-}, {
-  "id" : "32e509b0-f6d6-4000-9d48-34d441ec836b",
-  "name" : "headphones",
-  "createdDate" : 1639675597439,
-  "updatedDate" : 1639675597439,
-  "createdBy" : null,
-  "updatedBy" : null,
-  "active" : true
-}, {
-  "id" : "fcad3930-6f5c-4b83-9dd4-57c39b7912f0",
-  "name" : "children shoes",
-  "createdDate" : 1639677249619,
-  "updatedDate" : 1639677272582,
-  "createdBy" : null,
-  "updatedBy" : null,
-  "active" : true
-}, {
-  "id" : "cf283cfe-d4cc-4fe0-aaa6-035235f0c538",
-  "name" : "Woman clothes",
-  "createdDate" : 1639678127156,
-  "updatedDate" : 1639678127156,
-  "createdBy" : null,
-  "updatedBy" : null,
-  "active" : true
-}, {
-  "id" : "cfdb1947-ce09-4aed-83fe-528ca5fe16fc",
-  "name" : "Gadgets",
-  "createdDate" : 1639678296654,
-  "updatedDate" : 1639678296654,
-  "createdBy" : null,
-  "updatedBy" : null,
-  "active" : true
-}, {
-  "id" : "c38d942c-1e49-4d5c-a517-cd09b3388e79",
-  "name" : "mobile phones",
-  "createdDate" : 1639714074448,
-  "updatedDate" : 1639714101177,
+  "id" : "98679b40-d80e-49f5-89f3-c78a42e76f56",
+  "name" : "🖥 Desktop",
+  "createdDate" : 1639580068774,
+  "updatedDate" : null,
   "createdBy" : null,
   "updatedBy" : null,
   "active" : true

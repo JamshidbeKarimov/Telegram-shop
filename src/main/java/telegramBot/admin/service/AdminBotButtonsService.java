@@ -1,5 +1,6 @@
 package telegramBot.admin.service;
 
+import com.vdurmont.emoji.EmojiParser;
 import model.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -10,8 +11,7 @@ import telegramBot.admin.AdminInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminBotService implements AdminInterface {
-
+public class AdminBotButtonsService implements AdminInterface {
 
     public ReplyKeyboardMarkup adminMENU() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
@@ -105,6 +105,46 @@ public class AdminBotService implements AdminInterface {
         inlineKeyboardButton = new InlineKeyboardButton();
         inlineKeyboardButton.setCallbackData(ADMIN_BACK);
         inlineKeyboardButton.setText("back");
+        rowLine.add(inlineKeyboardButton);
+
+        rowsLine.add(rowLine);
+
+        return inlineKeyboardMarkup;
+    }
+
+    public InlineKeyboardMarkup notificationButtons(String sellerChatId) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsLine = new ArrayList<>();
+        inlineKeyboardMarkup.setKeyboard(rowsLine);
+
+        List<InlineKeyboardButton> rowLine = new ArrayList<>();
+
+        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setCallbackData(ADMIN_ACCEPT_SELLER_REQUEST + " " + sellerChatId);
+        inlineKeyboardButton.setText(EmojiParser.parseToUnicode(ADMIN_ACCEPT_SELLER_REQUEST + " :white_check_mark:"));
+        rowLine.add(inlineKeyboardButton);
+
+        inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setCallbackData(ADMIN_REJECT_SELLER_REQUEST + " " + sellerChatId);
+        inlineKeyboardButton.setText(EmojiParser.parseToUnicode(ADMIN_REJECT_SELLER_REQUEST + " :x:"));
+        rowLine.add(inlineKeyboardButton);
+
+        rowsLine.add(rowLine);
+
+        return inlineKeyboardMarkup;
+    }
+
+    public InlineKeyboardMarkup acceptedOrRejectedSeller(String answerToSeller) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsLine = new ArrayList<>();
+        inlineKeyboardMarkup.setKeyboard(rowsLine);
+
+        List<InlineKeyboardButton> rowLine = new ArrayList<>();
+
+
+        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setCallbackData(NONE);
+        inlineKeyboardButton.setText(answerToSeller);
         rowLine.add(inlineKeyboardButton);
 
         rowsLine.add(rowLine);

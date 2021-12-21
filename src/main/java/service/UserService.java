@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.UUID;
 
 public class UserService extends UserRepository {
+
+    public User get(String chatId) {
+        return login(chatId);
+    }
+
     @Override
-    public User get(UUID userId) {
-        for (User user : getUserListFromFile()) {
-            if (user.getId().equals(userId)) {
-                return user;
-            }
-        }
+    public User get(UUID id) {
         return null;
     }
 
